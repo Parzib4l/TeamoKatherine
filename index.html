@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disculpa</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        #girasol {
+            display: none;
+            margin-top: 20px;
+        }
+
+        #disculpa, #mensaje, #finalMessage, #loveMessage {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+            border: 2px solid #333;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #fffae0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        #image {
+            display: none;
+            max-width: 300px;
+            margin-top: 20px;
+        }
+
+        button {
+            background-color: #ffda03;
+            color: #333;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+
+        button:hover {
+            transform: scale(1.1);
+        }
+
+        #loveMessage {
+            font-size: 24px;
+            color: red;
+            display: none;
+            position: relative;
+        }
+
+        .falling-img {
+            position: absolute;
+            animation: fall infinite 5s linear;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-100%);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(110%);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button id="startButton">Iniciar</button>
+
+    <div id="girasol">
+        <img src="Girasol.jpg" alt="Girasol" style="max-width: 200px;">
+        <br>
+        <button id="nextButton">Siguiente</button>
+    </div>
+
+    <div id="disculpa">
+        <p>Mira, perdón, también sé que no es la manera de actuar y te debo una disculpa por ello.</p>
+        <button id="nextMessageButton">Siguiente</button>
+    </div>
+
+    <div id="mensaje">
+        <p id="messageText"></p>
+        <img id="image" src="okarun.jpg" alt="Imagen">
+        <button id="nextStepButton">Siguiente</button>
+        <button id="finalButton" style="display: none;">Siguiente</button>
+    </div>
+
+    <div id="finalMessage">
+        <p>Por favor perdóname y arreglemos juntos.</p>
+        <button id="finalStepButton">Siguiente</button>
+    </div>
+
+    <div id="loveMessage">
+        <p>❤️ Te Amo ❤️</p>
+    </div>
+
+    <script>
+        const startButton = document.getElementById('startButton');
+        const girasol = document.getElementById('girasol');
+        const nextButton = document.getElementById('nextButton');
+        const disculpa = document.getElementById('disculpa');
+        const nextMessageButton = document.getElementById('nextMessageButton');
+        const mensaje = document.getElementById('mensaje');
+        const messageText = document.getElementById('messageText');
+        const nextStepButton = document.getElementById('nextStepButton');
+        const image = document.getElementById('image');
+        const finalButton = document.getElementById('finalButton');
+        const finalMessage = document.getElementById('finalMessage');
+        const finalStepButton = document.getElementById('finalStepButton');
+        const loveMessage = document.getElementById('loveMessage');
+
+        let messages = [
+            "Como dices, hablo sin saber pero Te amo y es por eso que duele.",
+            "Parece que me ignoras, me haces sentir que no quieres hablar conmigo o que no quieres verme.",
+            "Eres lo único que tengo y no quiero perderte o que nos alejemos por un pleito, no me haces perder el tiempo y perdón si lo que dije lo hace parecer así.",
+            "Si algo te molesta o algo está pasando por favor dímelo, si se puede, resolvamoslo juntos."
+        ];
+
+        let messageIndex = 0;
+
+        startButton.addEventListener('click', () => {
+            startButton.style.display = 'none';
+            girasol.style.display = 'block';
+        });
+
+        nextButton.addEventListener('click', () => {
+            girasol.style.display = 'none';
+            disculpa.style.display = 'block';
+        });
+
+        nextMessageButton.addEventListener('click', () => {
+            disculpa.style.display = 'none';
+            mensaje.style.display = 'block';
+            messageText.textContent = messages[messageIndex];
+        });
+
+        nextStepButton.addEventListener('click', () => {
+            messageIndex++;
+            if (messageIndex < messages.length) {
+                messageText.textContent = messages[messageIndex];
+                if (messageIndex === messages.length - 1) {
+                    image.style.display = 'block';
+                    nextStepButton.style.display = 'none';
+                    finalButton.style.display = 'block';
+                }
+            }
+        });
+
+        finalButton.addEventListener('click', () => {
+            mensaje.style.display = 'none';
+            finalMessage.style.display = 'block';
+        });
+
+        finalStepButton.addEventListener('click', () => {
+            finalMessage.style.display = 'none';
+            loveMessage.style.display = 'block';
+            startRain();
+        });
+
+        function startRain() {
+            const images = ["kath1.jpg", "kath2.jpg", "kath3.jpg", "kath4.jpg", "kath5.jpg", "kath6.jpg"];
+            setInterval(() => {
+                const img = document.createElement('img');
+                img.src = images[Math.floor(Math.random() * images.length)];
+                img.className = 'falling-img';
+                img.style.left = Math.random() * 100 + 'vw';
+                img.style.width = '50px';
+                img.style.height = '50px';
+                document.body.appendChild(img);
+                img.addEventListener('animationend', () => {
+                    img.remove();
+                });
+            }, 200);
+        }
+    </script>
+</body>
+</html>
